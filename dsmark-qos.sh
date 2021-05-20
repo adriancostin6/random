@@ -29,7 +29,7 @@ tc class change dev eth1 classid 1:2 dsmark mask 0x3f value 0xc0
 # udp 7000 dscp
 # set last 2 bits in dscp field, leaving others unchanged
 echo "Changing DSCP value in third DSMARK class..."
-tc class change dev eth1 classid 1:3 dsmark mask 0xf0 value 0xc
+tc class change dev eth1 classid 1:3 dsmark mask 0xf3 value 0xc
 
 # user input and iptables 
 while true
