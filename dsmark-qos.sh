@@ -1,10 +1,32 @@
-# Create DSMARK queuing disciplines(qdisc) using the tc(traffic control) command on linux
-# to change the values of the DSCP field in network packets using a mask and value pair.
-# Also mangles OUTPUT table using the iptables command to set the DSCP field to different 
-# values for assured forwarding.
-# From my limited understanding of Linux QoS at the moment, this configuration will split 
-# the output traffic into three classes, one for best effort(dscp=0), one for port udp 7000,
-# and one for udp port 6000. 
+# Uses iptables to change the value of the Differentiated Services Code Point (DSCP) in
+# outgoing IP packets to different Assured Forwarding (AF) values chosen by the user. (e.g. AF22, AF31, AF13)
+# 
+# On the same output interface, a DSMARK queueing discipline (qdisc) is configured with 3 classes, one for 
+# best-effort traffic, one for traffic from UDP port 6000, and the last for traffic from UDP port 7000.
+# 
+# The second class is configured to set the first two bits in the DSCP field of the packet while leaving
+# the other bits unchanged. Very much the same happens for the third class, but instead of setting the first
+# two bits, this one sets the last two.
+# 
+# All of this is done for educational purposes in order to test out the DSMARK qdisc by analyzing the traffic
+# on the receiving end, and seeing if the values have been set correctly.
+# 
+# Components:
+#
+# +-------------------+                              +--------------------+              +--------------------+
+# |   Linux router    |                              | End device running |              |      Results       |
+# |                   | -------------------------->  | packet analyzer    | -----------> |                    |
+# | iptables + DSMARK |                              | tool,              |              |     DSCP field     |
+# +-------------------+                              +--------------------+              +--------------------+
+#
+# Example:  AF22 is            010100 (6 bits)
+#           DS field will be   01010000 (DSCP + ECN bits) (8 bits)
+# Considering UDP port 6000, on the receiving end, after applying the qdisc and sending the packet we will have:
+#           Received DS field: 11010000 
+# Considering UDP port 7000, on the receiving end, after applying the qdisc and sending the packet we will have:
+#           Received DS field: 01011100
+# Considering Best-Effort (DSCP 0) traffic, on the receiving end, after applying the qdisc and sending the packet we will have:
+#           Received DS field: 00000000
 
 # clear previous qdiscs
 tc qdisc del dev eth1 root &> /dev/null
