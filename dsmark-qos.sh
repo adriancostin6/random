@@ -66,14 +66,14 @@ tc filter del dev $niface prio 1 &> /dev/null
 echo "Setting up tc filters..."
 # set filters to add traffic to specific classes in the qdisc
 # udp traffic on port 6000 on class 2
-tc filter add dev $niface  parent 1: protocol ip prio 1 u32 match \
-    ip dport 6000 0xffff ip protocol 17 0xff flowid 10:2
+tc filter add dev $niface  parent 1: protocol ip prio 1 u32 \
+    match ip dport 6000 0xffff match ip protocol 17 0xff flowid 10:2
 # udp traffic on port 7000 on class 3
-tc filter add dev $niface  parent 1: protocol ip prio 1 u32 match \
-    ip dport 7000 0xffff ip protocol 17 oxff flowid 10:3
+tc filter add dev $niface  parent 1: protocol ip prio 1 u32 \
+    match ip dport 7000 0xffff match ip protocol 17 oxff flowid 10:3
 # all other udp traffic on class 1
-tc filter add dev $niface  parent 1: protocol ip prio 1 u32 match \
-    ip protocol 17 0xff flowid 10:1
+tc filter add dev $niface  parent 1: protocol ip prio 1 u32 \
+    match ip protocol 17 0xff flowid 10:1
 
 # user input and iptables 
 while true
