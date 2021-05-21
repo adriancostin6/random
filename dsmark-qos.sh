@@ -30,32 +30,50 @@
 # This example assumes that the ECN value stays unchanged at 0. When choosing the mask for the DSMARK qdisc, maintaining
 # the ECN field value was taken into consideration.
 
+# get default network interface
+niface=`route | awk '/^default/{print $NF}'`
+
 # clear previous qdiscs
-tc qdisc del dev eth1 root &> /dev/null
+tc qdisc del dev $niface root &> /dev/null
 
 # clear iptables mangle rules
 iptables -t mangle -F
 
 # create dsmark qdisc
 echo "Adding DSMARK qdisk..."
-tc qdisc add dev eth1 handle 1:0 root dsmark indices 8
+tc qdisc add dev $niface handle 1:0 root dsmark indices 8
 
 # edit classes
 # best effort traffic (DSCP 0)
 echo "Changing DSCP value in first DSMARK class..."
-#tc class change dev eth1 classid 1:1 dsmark mask 0x0 value 0x0
+#tc class change dev $niface classid 1:1 dsmark mask 0x0 value 0x0
 # sau (punem in 0 valoarea dscp mentinand ecn in caz ca e folosit)
-tc class change dev eth1 classid 1:1 dsmark mask 0x3 value 0x0
+tc class change dev $niface classid 1:1 dsmark mask 0x3 value 0x0
 
 # udp 6000
 # set first 2 bits in dscp field, leaving others unchanged
 echo "Changing DSCP value in second DSMARK class..."
-tc class change dev eth1 classid 1:2 dsmark mask 0x3f value 0xc0
+tc class change dev $niface classid 1:2 dsmark mask 0x3f value 0xc0
 
 # udp 7000 dscp
 # set last 2 bits in dscp field, leaving others unchanged
 echo "Changing DSCP value in third DSMARK class..."
-tc class change dev eth1 classid 1:3 dsmark mask 0xf3 value 0xc
+tc class change dev $niface classid 1:3 dsmark mask 0xf3 value 0xc
+
+# clear up previous tc filters, if any
+tc filter del dev $niface prio 1 &> /dev/null
+
+echo "Setting up tc filters..."
+# set filters to add traffic to specific classes in the qdisc
+# udp traffic on port 6000 on class 2
+tc filter add dev $niface protocol ip parent 1: prio 1 u32 match \
+    ip dport 6000 0xffff ip protocol 17 0xff flowid 10:2
+# udp traffic on port 7000 on class 3
+tc filter add dev $niface protocol ip parent 1: prio 1 u32 match \
+    ip dport 7000 0xffff ip protocol 17 oxff flowid 10:3
+# all other udp traffic on class 1
+tc filter add dev $niface protocol ip parent 1: prio 1 u32 match \
+    ip protocol 17 0xff flowid 10:1
 
 # user input and iptables 
 while true
