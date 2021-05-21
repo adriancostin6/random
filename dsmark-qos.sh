@@ -41,7 +41,9 @@ tc qdisc add dev eth1 handle 1:0 root dsmark indices 8
 # edit classes
 # best effort traffic (DSCP 0)
 echo "Changing DSCP value in first DSMARK class..."
-tc class change dev eth1 classid 1:1 dsmark mask 0x0 value 0x0
+#tc class change dev eth1 classid 1:1 dsmark mask 0x0 value 0x0
+# sau (punem in 0 valoarea dscp mentinand ecn in caz ca e folosit)
+tc class change dev eth1 classid 1:1 dsmark mask 0x3 value 0x0
 
 # udp 6000
 # set first 2 bits in dscp field, leaving others unchanged
