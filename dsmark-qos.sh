@@ -70,7 +70,7 @@ tc filter add dev $niface  parent 1: protocol ip prio 1 u32 \
     match ip dport 6000 0xffff match ip protocol 17 0xff flowid 10:2
 # udp traffic on port 7000 on class 3
 tc filter add dev $niface  parent 1: protocol ip prio 1 u32 \
-    match ip dport 7000 0xffff match ip protocol 17 oxff flowid 10:3
+    match ip dport 7000 0xffff match ip protocol 17 0xff flowid 10:3
 # all other udp traffic on class 1
 tc filter add dev $niface  parent 1: protocol ip prio 1 u32 \
     match ip protocol 17 0xff flowid 10:1
