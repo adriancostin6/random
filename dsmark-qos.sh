@@ -27,6 +27,8 @@
 #           Received DS field: 01011100
 # Considering Best-Effort (DSCP 0) traffic, on the receiving end, after applying the qdisc and sending the packet we will have:
 #           Received DS field: 00000000
+# This example assumes that the ECN value stays unchanged at 0. When choosing the mask for the DSMARK qdisc, maintaining
+# the ECN field value was taken into consideration.
 
 # clear previous qdiscs
 tc qdisc del dev eth1 root &> /dev/null
