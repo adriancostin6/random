@@ -76,17 +76,9 @@ tc filter add dev $niface  parent 1: protocol ip prio 1 u32 \
     match ip protocol 17 0xff flowid 10:1
 
 # user input and iptables 
-while true
-do
-    read -p "Enter DSCP value:" dscp
-    echo "Setting DSCP value using iptables..."
-    iptables -t mangle -A OUTPUT -p udp \
-      --match multiport --dports 6000,7000 \
-      -j DSCP --set-dscp $dscp
+read -p "Enter DSCP value to be set with iptables:" dscp
+echo "Setting DSCP value using iptables..."
 
-    read -p "Enter another DSCP value?(y/n) " choice
-    if [ "$choice" = "n" ] ;
-    then
-	break
-    fi
-done
+iptables -t mangle -A OUTPUT -p udp \
+  --match multiport --dports 6000,7000 \
+  -j DSCP --set-dscp $dscp
