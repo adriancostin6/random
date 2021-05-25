@@ -1,9 +1,3 @@
-# Configuration for DSMARK qdisc that filters all outgoing traffic and places
-# it into classes to get marked differently on the DS field according to the 
-# chosen priority.
-# Designed to set the value of some bits in the DSCP field for certain
-# packets while preserving all of the other bits in the DS field.
-
 # get default network interface
 niface=`route | awk '/^default/{print $NF}'`
 
@@ -15,7 +9,7 @@ iptables -t mangle -F
 
 # create dsmark qdisc
 echo "Adding DSMARK qdisk..."
-tc qdisc add dev $niface handle 1:0 root dsmark indices 8
+tc qdisc add dev $niface handle 1:0 root dsmark indices 8 default_index 1
 
 # Configure DSMARK qdisc
 # Best-effort traffic (DSCP 0)
@@ -38,14 +32,14 @@ tc filter del dev $niface prio 2 &> /dev/null
 echo "Configuring tc filters..."
 # UDP traffic on port 6000 on qdisc class 2
 tc filter add dev $niface  parent 1: protocol ip prio 1 u32 \
-    match ip dport 6000 0xffff match ip protocol 17 0xff flowid 10:2
+    match ip dport 6000 0xffff match ip protocol 17 0xff flowid 1:2
 
 # UDP traffic on port 7000 on qdisc class 3
 tc filter add dev $niface  parent 1: protocol ip prio 1 u32 \
-    match ip dport 7000 0xffff match ip protocol 17 0xff flowid 10:3
+    match ip dport 7000 0xffff match ip protocol 17 0xff flowid 1:3
 
 # All other traffic, on qdisc class 1 (Best-Effort Traffic)
-tc filter add dev $niface parent 1: protocol ip prio 2 flowid 10:1
+#tc filter add dev $niface parent 1: protocol ip prio 2 flowid 10:1
 
 # Set DSCP value for UDP 6000,7000 using iptables
 read -p "Enter DSCP value for Assured-Forwarding on UDP ports 6000,7000:" dscp
