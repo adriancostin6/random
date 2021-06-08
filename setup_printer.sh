@@ -3,11 +3,6 @@
 # Script to automatically start the CUPS server and setup the printer.
 # Make sure cups is installed and configured properly before running.
 
-# Check if CUPS service is available
-if systemctl status cups | grep -q "could not be found"; then
-printf "Install and configure CUPS, then try again...\n"   
-fi
-
 # Start the service if it is installed and inactive 
 if systemctl is-active --quiet cups; then 
 printf "CUPS service is active...\n"
