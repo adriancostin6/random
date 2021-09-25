@@ -1,8 +1,7 @@
 
 /**
- *  Write a function htoi(s), which converts a string of hexadecimal digits
- *  (including an optional 0x or 0X) into it's equivalent integer value.
- *  The allowable digits are 0-9, a-f, A-F.
+ *  Write a function btoi(s), which converts a string of binary digits
+ *  (including an optional 0b or 0B) into it's equivalent integer value.
  */
 #include <stdio.h>
 #include <string.h>
@@ -12,7 +11,7 @@
 /* length for hexa prefix*/
 #define BIN_PREFIX 2 
 
-int htoi(const char *s);
+int btoi(const char *s);
 
 int main(int argc, char **argv)
 {
