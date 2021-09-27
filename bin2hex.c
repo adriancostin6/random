@@ -22,7 +22,7 @@ int main(int argc, char **argv)
     int i;
 
     if(argc != 2) {
-        printf("Converts character string from hexadecimal to binary notation\n"
+        printf("Converts character string from binary to hexadecimal notation\n"
                 "Usage:  ./bin2hex STRING\n"
                 "Example ./bin2hex 1001\n"
                 "        ./bin2hex 0b1001\n"
@@ -32,7 +32,7 @@ int main(int argc, char **argv)
     }
 
     s = btoh(argv[1]);
-    printf("Hex: %s\nBinary: %s\n", argv[1], s);
+    printf("Binary: %s\nHexadecimal: %s\n", argv[1], s);
     free(s.data);
     return 0;
 }
@@ -43,7 +43,7 @@ String btoh(const char *s)
 {
     char hex_lut[] = "0123456789ABCDEF";
     int i, k, j;
-    int in_len, out_len;
+    int in_len_old, in_len, out_len;
     int remainder;
 
     char *temp; /* temp char array used for input string processing */
@@ -60,11 +60,12 @@ String btoh(const char *s)
     /* account for unequeal groups of bits; example 11 1111 -> 0011 1111*/
     remainder = in_len % 4; /* remainder determines the number of leading zeros we need to add*/
     if(remainder != 0){
+        in_len_old = in_len;
+        while(in_len % 4 != 0) in_len++;
         /* if we need ot add leading zeros, allocate temp string and add them*/
-        in_len += remainder;
         temp = malloc(in_len * sizeof(char));
-        strcpy(temp + remainder, s);
-        for (j = 0; j < remainder; ++j)
+        strcpy(temp + in_len - in_len_old, s);
+        for (j = 0; j < in_len - in_len_old; ++j)
             temp[j] = '0';
     } else {
         /* if no leading zeros, create temp string and simply copy */

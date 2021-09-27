@@ -20,7 +20,7 @@ int main(int argc, char **argv)
               );
         return -1;
     }
-    printf("Hexa: %s\nDecimal: %d\n", argv[1], htoi(argv[1]));
+    printf("Hex: %s\nDecimal: %d\n", argv[1], htoi(argv[1]));
     return 0;
 }
 

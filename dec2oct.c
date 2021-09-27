@@ -9,7 +9,7 @@ int dtoo(const char *s);
 int main(int argc, char **argv)
 {
     if(argc != 2) {
-        printf("Converts character string from decimal octal notation\n"
+        printf("Converts character string from decimal to octal notation\n"
                 "Usage:  ./dec2oct STRING\n"
                 "Example ./dec2oct 100\n"
               );
