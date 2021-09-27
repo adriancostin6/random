@@ -1,8 +1,4 @@
-
-/**
- *  Write a function btoi(s), which converts a string of binary digits
- *  (including an optional 0b or 0B) into it's equivalent integer value.
- */
+/* Converts binary to decimal */
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
@@ -35,7 +31,6 @@ int btoi(const char *s)
     int i;
     int len, result, power;
 
-    /* actual len, accounting for the null termination character */
     len = strlen(s);
 
     /* if 0X or 0x is present, update the start index */
@@ -48,6 +43,7 @@ int btoi(const char *s)
         power = len - 1;
     }
 
+    /* calculate decimal value for binary string */
     result = 0;
     while (i < len) {
         if(isdigit(s[i])) {
