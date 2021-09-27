@@ -1,8 +1,4 @@
-
-/**
- *  Write a function otoi(s), which converts a string of octal digits
- *  (including an optional 0o or 0O or 0) into it's equivalent integer value.
- */
+/* convert octal to decimal */
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
@@ -36,7 +32,6 @@ int otoi(const char *s)
     int i;
     int len, result, power;
 
-    /* actual len, accounting for the null termination character */
     len = strlen(s);
 
     /* if 0o or 0O is present, or 0, update the start index */

@@ -1,8 +1,4 @@
-/**
- *  Write a function htoi(s), which converts a string of hexadecimal digits
- *  (including an optional 0x or 0X) into it's equivalent integer value.
- *  The allowable digits are 0-9, a-f, A-F.
- */
+/* converts hex to decimal */
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
@@ -29,13 +25,12 @@ int main(int argc, char **argv)
 }
 
 
-/* converts a string of hexadecimal digits to */
+/* converts a string of hexadecimal digits to decimal*/
 int htoi(const char *s)
 {
     int i;
     int len, result, power;
 
-    /* actual len, accounting for the null termination character */
     len = strlen(s);
 
     /* if 0X or 0x is present, update the start index */

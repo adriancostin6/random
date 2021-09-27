@@ -1,7 +1,4 @@
-/**
- *  Write a function dtoh(s), which converts a string of decimal digits
- *  into it's equivalent hex value.
- */
+/* converts dec to hex */
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -50,7 +47,7 @@ int main(int argc, char **argv)
 }
 
 
-/* converts a string of octal digits to decimal; returns a String*/
+/* converts a string of decimal digits to hex */
 String dtoh(const char *s)
 {
     int i;

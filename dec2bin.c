@@ -1,8 +1,4 @@
-
-/**
- *  Write a function dtob(s), which converts a string of decimal digits
- *  into it's equivalent binary value.
- */
+/* converts decimal to binary */
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -40,7 +36,7 @@ int main(int argc, char **argv)
 }
 
 
-/* converts a string of octal digits to decimal; returns a String*/
+/* converts a string of decimal digits to binary */
 String dtob(const char *s)
 {
     int i;
@@ -63,7 +59,7 @@ String dtob(const char *s)
     result = malloc(i * sizeof(char));
     result[i] = '\0'; /* add null termination character */
 
-    /* convert decimal to hex by division */
+    /* convert decimal to binary by division */
     i = 0;
     while(decimal / 2 != 0) { 
         insert_binary_char(result, decimal, i);
@@ -77,7 +73,8 @@ String dtob(const char *s)
 
     return str;
 }
-/* inserts char in array based on value of hex num */
+
+/* inserts char in array based on value of num */
 void insert_binary_char(char *s, int num, int pos)
 {
     int remainder;

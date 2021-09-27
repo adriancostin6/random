@@ -1,9 +1,4 @@
-
-
-/**
- *  Write a function dtoo(s), which converts a string of decimal digits
- *  into it's equivalent octal value.
- */
+/* converts decimal to octal */
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -25,7 +20,7 @@ int main(int argc, char **argv)
 }
 
 
-/* converts a string of octal digits to decimal*/
+/* converts a string of decimal digits to octal*/
 int dtoo(const char *s)
 {
     int decimal;

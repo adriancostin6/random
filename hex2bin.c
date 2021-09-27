@@ -1,9 +1,4 @@
-
-/**
- *  Write a function htob(s), which converts a string of hexadecimal digits
- *  (including an optional 0x or 0X) into it's equivalent binary value.
- *  The allowable digits are 0-9, a-f, A-F.
- */
+/* converts hex to binary */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
